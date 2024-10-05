@@ -1,24 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
-import fetchData from '../data'
 import CardLogo from '../assets/card.png'
 import '../styles/PlayField.css'
-
-async function fetchAllData(pokemonNamesArray) {
-	try {
-		let pokemonArray = []
-		for (const pokemon of pokemonNamesArray) {
-			const result = await fetchData(pokemon.name)
-			pokemonArray.push({
-				name: result.name,
-				img: result.sprites.front_default,
-			})
-		}
-		return pokemonArray
-	} catch (error) {
-		console.error('Error fetching all data:', error)
-		return []
-	}
-}
 
 function shuffleCards(array) {
 	for (let i = array.length - 1; i > 0; i--) {
@@ -28,7 +10,6 @@ function shuffleCards(array) {
 }
 
 export default function PlayField({
-	pokemonNamesArray,
 	pokemonData,
 	setPokemonData,
 	clickedPokemon,
@@ -37,13 +18,6 @@ export default function PlayField({
 	setScore,
 }) {
 	const [flippedCards, setFlippedCards] = useState([])
-
-	useEffect(() => {
-		fetchAllData(pokemonNamesArray).then(data => {
-			shuffleCards(data)
-			setPokemonData(data)
-		})
-	}, [pokemonNamesArray, setPokemonData])
 
 	const handleOnclick = useCallback(
 		(e, pokemon) => {
@@ -75,10 +49,10 @@ export default function PlayField({
 			}, 1000) // Длительность анимации поворота
 		},
 		[
-			clickedPokemon,
 			pokemonData,
-			setClickedPokemon,
 			setPokemonData,
+			clickedPokemon,
+			setClickedPokemon,
 			setScore,
 			score,
 		]
