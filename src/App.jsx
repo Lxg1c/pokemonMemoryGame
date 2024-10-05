@@ -1,34 +1,30 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import PlayField from './components/PlayField'
 import Score from './components/Score'
+import Loader from './components/Loader'
 import Logo from './assets/pokemon_logo.png'
-
-const pokemonNamesArray = [
-	{ name: 'Pikachu' },
-	{ name: 'Charizard' },
-	{ name: 'Bulbasaur' },
-	{ name: 'Squirtle' },
-	{ name: 'Jigglypuff' },
-	{ name: 'Meowth' },
-	{ name: 'Gengar' },
-	{ name: 'Gyarados' },
-	{ name: 'Dragonite' },
-	{ name: 'Mewtwo' },
-	{ name: 'Eevee' },
-	{ name: 'Snorlax' },
-	{ name: 'Lapras' },
-	{ name: 'Vaporeon' },
-	{ name: 'Flareon' },
-	{ name: 'Jolteon' },
-	{ name: 'Mew' },
-	{ name: 'Charmander' },
-]
+import pokemonNamesArray from './data'
+import fetchAllData from './components/FetchData'
 
 function App() {
 	const [pokemonData, setPokemonData] = useState([])
 	const [clickedPokemon, setClickedPokemon] = useState([])
 	const [score, setScore] = useState(0)
+	const [loader, setLoader] = useState(true)
+
+	useEffect(() => {
+		fetchAllData(pokemonNamesArray)
+			.then(data => {
+				setPokemonData(data)
+				setLoader(true) // Устанавливаем loader в false после загрузки данных
+			})
+			.catch(error => {
+				console.error('Error fetching data:', error)
+				setLoader(false) // Устанавливаем loader в false в случае ошибки
+			})
+	}, [pokemonNamesArray, setPokemonData])
+
 	return (
 		<div className='pokemon-game'>
 			<header className='header'>
@@ -41,15 +37,18 @@ function App() {
 					<Score score={score} setScore={setScore} />
 				</div>
 			</header>
-			<PlayField
-				pokemonNamesArray={pokemonNamesArray}
-				pokemonData={pokemonData}
-				setPokemonData={setPokemonData}
-				clickedPokemon={clickedPokemon}
-				setClickedPokemon={setClickedPokemon}
-				score={score}
-				setScore={setScore}
-			/>
+			{loader ? (
+				<PlayField
+					pokemonData={pokemonData}
+					setPokemonData={setPokemonData}
+					clickedPokemon={clickedPokemon}
+					setClickedPokemon={setClickedPokemon}
+					score={score}
+					setScore={setScore}
+				/>
+			) : (
+				<Loader />
+			)}
 			<footer className='footer'></footer>
 		</div>
 	)
