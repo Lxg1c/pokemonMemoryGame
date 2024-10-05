@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+	--title-family: 'Pixelify Sans', sans-serif;
+	--title-size: 48px;
+	--score-size: 32px;
+}
+
+.score-info {
+	display: flex;
+	justify-content: space-between;
+	gap: 50px;
+	margin-bottom: 30px;
+}
+
+.score,
+.best-score {
+	font-family: var(--title-family);
+	font-size: var(--score-size);
+}

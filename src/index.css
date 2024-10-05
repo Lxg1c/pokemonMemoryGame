@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+	margin: 0;
+	padding: 0;
+	outline: none;
+	border: none;
+	text-decoration: none;
+	list-style: none;
+	font-family: 'Roboto Condensed', sans-serif;
+}
+
+:root {
+	--main-bg: #58bc82;
+}
+
+body {
+	padding: 30px;
+	background-image: url('../src/assets/background-1.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+}
