@@ -20,6 +20,7 @@ function App() {
 	useEffect(() => {
 		fetchAllData(pokemonNamesArray)
 			.then(data => {
+				console.log('Loading data...')
 				setPokemonData(data)
 				setLoader(false)
 			})
