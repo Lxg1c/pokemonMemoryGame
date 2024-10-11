@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  frontend:
+    image: memory-card:latest
+    ports:
+      - '5173:80'

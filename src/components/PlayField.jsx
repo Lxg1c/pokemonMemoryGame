@@ -9,26 +9,24 @@ function shuffleCards(array) {
 	}
 }
 
-export default function PlayField({
+const PlayField = ({
 	pokemonData,
 	setPokemonData,
 	clickedPokemon,
 	setClickedPokemon,
 	score,
 	setScore,
-}) {
+	onGameOver,
+}) => {
 	const [flippedCards, setFlippedCards] = useState([])
 
-	const handleOnclick = useCallback(
+	const handleClick = useCallback(
 		(e, pokemon) => {
 			e.preventDefault()
 
 			if (clickedPokemon.includes(pokemon.name)) {
-				console.log(0)
-				setClickedPokemon([])
-				setScore(0)
+				onGameOver()
 			} else {
-				console.log(score + 1)
 				setScore(score + 1)
 				setClickedPokemon([...clickedPokemon, pokemon.name])
 			}
@@ -55,6 +53,7 @@ export default function PlayField({
 			setClickedPokemon,
 			setScore,
 			score,
+			onGameOver,
 		]
 	)
 
@@ -65,7 +64,7 @@ export default function PlayField({
 				className={`pokemon-card ${
 					flippedCards.includes(pokemon.name) ? 'flipped' : ''
 				}`}
-				onClick={e => handleOnclick(e, pokemon)}
+				onClick={e => handleClick(e, pokemon)}
 			>
 				<img src={pokemon.img} alt={pokemon.name} />
 				<h2>{pokemon.name[0].toUpperCase() + pokemon.name.slice(1)}</h2>
@@ -74,7 +73,9 @@ export default function PlayField({
 				</div>
 			</div>
 		))
-	}, [flippedCards, handleOnclick, pokemonData])
+	}, [flippedCards, handleClick, pokemonData])
 
 	return <div className='field'>{memoizedPokemonData}</div>
 }
+
+export default PlayField

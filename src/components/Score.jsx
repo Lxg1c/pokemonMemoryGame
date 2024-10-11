@@ -24,7 +24,9 @@ export default function Score({ score, setScore }) {
 
 	return (
 		<div className='score-info'>
-			<h3 className='score'>Score: {score}</h3>
+			<h3 className='score' style={{ marginTop: '0' }}>
+				Score: {score}
+			</h3>
 			<h3 className='best-score'>Best Score: {bestScore}</h3>
 		</div>
 	)

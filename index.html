@@ -9,5 +9,14 @@
 	<body>
 		<div id="root"></div>
 		<script type="module" src="/src/main.jsx"></script>
+		<script>
+			function handleImageLoad() {
+				document.body.classList.add('loaded')
+			}
+
+			const bgImage = new Image()
+			bgImage.src = '../src/assets/background-1.png'
+			bgImage.onload = handleImageLoad
+		</script>
 	</body>
 </html>

@@ -1,0 +1,47 @@
+.screen {
+	margin-top: 30px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: #fff;
+	padding: 30px;
+	border-radius: 10px;
+	border: 2px solid #000;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.screen h2 {
+	font-family: var(--title-family);
+	font-weight: 800;
+	font-size: 32px;
+	margin-bottom: 20px;
+}
+
+.game-btn {
+	cursor: pointer;
+	font-family: var(--title-family);
+	font-size: 20px;
+	font-weight: 600;
+	margin-top: 80px;
+	background-color: #a8e4a0;
+	padding: 20px;
+	border-radius: 10px;
+	border: 2px solid #000;
+	transition: background-color 0.3s ease;
+}
+
+.game-btn:hover {
+	background-color: #8bc34a;
+}
+
+.score {
+	margin-top: 30px;
+	display: flex;
+	align-items: center;
+	gap: 30px;
+}
+
+.screen-score {
+	font-family: var(--title-family);
+	font-size: 18px; /* Увеличен размер шрифта для лучшей читаемости */
+}

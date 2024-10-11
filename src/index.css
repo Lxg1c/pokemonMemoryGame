@@ -19,4 +19,9 @@ body {
 	background-image: url('../src/assets/background-1.png');
 	background-repeat: no-repeat;
 	background-size: cover;
+	visibility: hidden;
+}
+
+.loaded {
+	visibility: visible;
 }
