@@ -8,40 +8,48 @@ import StartScreen from './components/GameStart'
 import Logo from './assets/pokemon_logo.png'
 import pokemonNamesArray from './data'
 import fetchAllData from './components/FetchData'
+import GameWin from './components/GameWin'
 
 function App() {
 	const [pokemonData, setPokemonData] = useState([])
 	const [clickedPokemon, setClickedPokemon] = useState([])
 	const [score, setScore] = useState(0)
-	const [loader, setLoader] = useState(true)
+	const [loader, setLoader] = useState(false) // Loader теперь не показывается до начала игры
 	const [gameStarted, setGameStarted] = useState(false)
 	const [gameOver, setGameOver] = useState(false)
+	const [win, setWin] = useState(false) // Исправлено: isWin -> setWin
 
-	useEffect(() => {
+	const handleStartGame = () => {
+		setLoader(true) // Показываем Loader при начале игры
+		setGameStarted(true)
+
 		fetchAllData(pokemonNamesArray)
 			.then(data => {
 				console.log('Loading data...')
 				setPokemonData(data)
-				setLoader(false)
+				setLoader(false) // Скрываем Loader после загрузки данных
 			})
 			.catch(error => {
 				console.error('Error fetching data:', error)
-				setLoader(false)
+				setLoader(false) // Скрываем Loader в случае ошибки
 			})
-	}, [])
-
-	const handleStartGame = () => {
-		setGameStarted(true)
 	}
 
 	const handleGameOver = () => {
-		setGameOver(true)
+		if (score === pokemonData.length) {
+			setWin(true)
+		} else {
+			setGameOver(true)
+		}
+		localStorage.setItem('bestScore', score)
 	}
 
 	const handleRestartGame = () => {
 		setClickedPokemon([])
 		setScore(0)
 		setGameOver(false)
+		setWin(false) // Сбрасываем состояние победы
+		// Убираем сброс состояния gameStarted
 	}
 
 	return (
@@ -53,9 +61,18 @@ function App() {
 				</div>
 			</header>
 
-			{!gameStarted && !gameOver && <StartScreen onStart={handleStartGame} />}
+			{!gameStarted && !gameOver && !win && (
+				<StartScreen onStart={handleStartGame} />
+			)}
 			{gameOver && (
 				<GameOverScreen
+					score={score}
+					bestScore={localStorage.getItem('bestScore')}
+					onRestart={handleRestartGame}
+				/>
+			)}
+			{win && (
+				<GameWin
 					score={score}
 					bestScore={localStorage.getItem('bestScore')}
 					onRestart={handleRestartGame}
@@ -66,7 +83,8 @@ function App() {
 				<Loader />
 			) : (
 				gameStarted &&
-				!gameOver && (
+				!gameOver &&
+				!win && (
 					<>
 						<Score score={score} setScore={setScore} />
 						<PlayField
